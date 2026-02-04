@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sales Record</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h1>Sales Record</h1>
+
+  <!-- Sales Form -->
+  <form id="salesForm">
+    <input type="date" id="date" required>
+
+    <input type="text" id="product" placeholder="Product name" required>
+
+    <input type="number" id="quantity" placeholder="Quantity" required>
+
+    <input type="number" id="price" placeholder="Unit price" required>
+
+    <input type="text" id="customer" placeholder="Customer name (optional)">
+
+    <select id="paymentType" required>
+      <option value="">Payment type</option>
+      <option value="cash">Cash</option>
+      <option value="transfer">Transfer</option>
+    </select>
+
+    <textarea id="notes" placeholder="Notes"></textarea>
+
+    <button type="submit">Add Sale</button>
+  </form>
+
+  <!-- Sales Table -->
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Product</th>
+        <th>Qty</th>
+        <th>Unit Price</th>
+        <th>Total</th>
+        <th>Customer</th>
+        <th>Payment</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody id="salesTableBody"></tbody>
+  </table>
+
+  <script src="app.js"></script>
+</body>
+</html>
