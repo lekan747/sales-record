@@ -2,24 +2,37 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sales Record</title>
+
   <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1976d2">
 </head>
 <body>
 
   <h1>Sales Record</h1>
 
-  <!-- Sales Form -->
+  <!-- SUMMARY -->
+  <div id="summary">
+    <p>Today Total: <strong id="todayTotal">₦0</strong></p>
+    <p>This Month Total: <strong id="monthTotal">₦0</strong></p>
+  </div>
+
+  <!-- CREDIT SUMMARY -->
+  <div id="creditSummary">
+    <h3>Credit Summary</h3>
+    <p>Total Outstanding: <strong id="totalCredit">₦0</strong></p>
+    <ul id="creditList"></ul>
+  </div>
+
+  <!-- SALES FORM -->
   <form id="salesForm">
     <input type="date" id="date" required>
-
     <input type="text" id="product" placeholder="Product name" required>
-
     <input type="number" id="quantity" placeholder="Quantity" required>
-
-    <input type="number" id="price" placeholder="Unit price" required>
-
-    <input type="text" id="customer" placeholder="Customer name (optional)">
+    <input type="number" id="price" placeholder="Unit price (₦)" required>
+    <input type="text" id="customer" placeholder="Customer name (credit only)">
 
     <select id="paymentType" required>
       <option value="">Payment type</option>
@@ -27,28 +40,58 @@
       <option value="transfer">Transfer</option>
     </select>
 
+    <label>
+      <input type="checkbox" id="isCredit">
+      Credit sale
+    </label>
+
     <textarea id="notes" placeholder="Notes"></textarea>
 
     <button type="submit">Add Sale</button>
   </form>
 
-  <!-- Sales Table -->
-  <table>
-    <thead>
-      <tr>
-        <th>Date</th>
-        <th>Product</th>
-        <th>Qty</th>
-        <th>Unit Price</th>
-        <th>Total</th>
-        <th>Customer</th>
-        <th>Payment</th>
-        <th>Notes</th>
-      </tr>
-    </thead>
-    <tbody id="salesTableBody"></tbody>
-  </table>
+  <!-- EXPORT / IMPORT -->
+  <div class="controls">
+    <button onclick="exportData()">Export Data</button>
+    <input type="file" accept=".json" onchange="importData(event)">
+  </div>
+
+  <!-- FILTERS -->
+  <div class="filters">
+    <input type="date" id="filterDate">
+    <select id="filterPayment">
+      <option value="">All Payments</option>
+      <option value="cash">Cash</option>
+      <option value="transfer">Transfer</option>
+    </select>
+    <button onclick="renderSales()">Apply Filter</button>
+  </div>
+
+  <!-- TABLE -->
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Product</th>
+          <th>Qty</th>
+          <th>Unit Price</th>
+          <th>Total</th>
+          <th>Customer</th>
+          <th>Payment</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="salesTableBody"></tbody>
+    </table>
+  </div>
 
   <script src="app.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js");
+    }
+  </script>
 </body>
 </html>
